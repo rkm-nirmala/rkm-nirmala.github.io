@@ -1,0 +1,232 @@
+<section class="section section--alt" id="struktur">
+  <div class="container" style="text-align: center;">
+    <p class="section__eyebrow">Struktur</p>
+    <h2 class="section__title">Hierarki kepemimpinan</h2>
+
+    <style>
+    .hier-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      position: relative;
+      padding: 1rem 0 2rem;
+    }
+    .hier-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      margin: 5px 0;
+      flex-wrap: wrap;
+      position: relative;
+    }
+    .hier-row-split {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .hier-node {
+      position: relative;
+      padding: 9px 22px;
+      border-radius: 999px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .hier-node:hover { transform: translateY(-2px); }
+    .t-investor  { background: #4ade8015; border: 1px solid #4ade8040; color: #4ade80; }
+    .t-investor:hover  { background: #4ade8025; border-color: #4ade8080; box-shadow: 0 0 20px #4ade8018; }
+    .t-founder   { background: #e9456015; border: 1px solid #e9456040; color: #e94560; }
+    .t-founder:hover   { background: #e9456025; border-color: #e9456080; box-shadow: 0 0 20px #e9456018; }
+    .t-lawyer    { background: #ffffff08; border: 1px dashed #ffffff25; color: #888; }
+    .t-lawyer:hover    { background: #ffffff12; border-color: #ffffff40; box-shadow: 0 0 20px #ffffff08; }
+    .t-gleader   { background: #4fc3f715; border: 1px solid #4fc3f740; color: #4fc3f7; }
+    .t-gleader:hover   { background: #4fc3f725; border-color: #4fc3f780; box-shadow: 0 0 20px #4fc3f718; }
+    .t-gmember   { background: #ffd16615; border: 1px solid #ffd16640; color: #ffd166; }
+    .t-gmember:hover   { background: #ffd16625; border-color: #ffd16680; box-shadow: 0 0 20px #ffd16618; }
+    .t-divleader { background: #ffffff08; border: 1px solid #ffffff20; color: #aaa; }
+    .t-divleader:hover { background: #ffffff14; border-color: #ffffff35; box-shadow: 0 0 20px #ffffff08; }
+    .t-divmember { background: #ffffff05; border: 1px solid #ffffff15; color: #666; }
+    .t-divmember:hover { background: #ffffff10; border-color: #ffffff28; box-shadow: 0 0 20px #ffffff05; }
+    .badge-indep {
+      display: inline-block;
+      font-size: 9px;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 400;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: #ffffff10;
+      color: #555;
+      margin-left: 6px;
+      vertical-align: middle;
+      letter-spacing: 0.5px;
+    }
+    #hierTooltip {
+      position: fixed;
+      z-index: 9999;
+      width: 240px;
+      background: #13131f;
+      border: 1px solid #ffffff18;
+      border-radius: 12px;
+      padding: 14px 16px;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateY(6px);
+      transition: opacity 0.18s ease, transform 0.18s ease;
+      box-shadow: 0 12px 40px #00000060;
+      word-wrap: break-word;
+      text-align: left;
+    }
+    #hierTooltip.show { opacity: 1; transform: translateY(0); }
+    .tt-label { font-size: 10px; font-family: 'DM Sans', sans-serif; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 6px; font-weight: 500; }
+    .tt-title { font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 8px; color: #fff; }
+    .tt-desc  { font-size: 12px; color: #777; line-height: 1.6; margin-bottom: 10px; }
+    .tt-duties { display: flex; flex-direction: column; gap: 4px; }
+    .tt-duty  { display: flex; align-items: flex-start; gap: 6px; font-size: 11px; color: #666; line-height: 1.5; }
+    .tt-dot   { width: 4px; height: 4px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+    .tt-atur  { display: inline-block; margin-top: 10px; font-size: 10px; font-family: monospace; padding: 3px 8px; border-radius: 4px; background: #ffffff08; color: #444; border: 1px solid #ffffff10; }
+    </style>
+
+    <div id="hierTooltip">
+      <div class="tt-label"  id="ttLabel"></div>
+      <div class="tt-title"  id="ttTitle"></div>
+      <div class="tt-desc"   id="ttDesc"></div>
+      <div class="tt-duties" id="ttDuties"></div>
+      <span class="tt-atur"  id="ttAtur"></span>
+    </div>
+
+    <div class="hier-wrap">
+      <div class="hier-row">
+        <div class="hier-node t-investor" data-node="investor">Investor</div>
+      </div>
+      <div class="hier-line"></div>
+      <div class="hier-row">
+        <div class="hier-node t-founder"  data-node="founder">Founder</div>
+        <div class="hier-node t-lawyer"   data-node="divlawyer">divLawyer ⚖<span class="badge-indep">independen</span></div>
+      </div>
+      <div class="hier-line"></div>
+      <div class="hier-row">
+        <div class="hier-node t-gleader"  data-node="gleader">gLeader</div>
+      </div>
+      <div class="hier-line"></div>
+      <div class="hier-row hier-row-split">
+        <div class="hier-node t-gmember"  data-node="gwatcher">gWatcher</div>
+        <div class="hier-node t-gmember"  data-node="gexecutor">gExecutor</div>
+      </div>
+      <div class="hier-line"></div>
+      <div class="hier-row">
+        <div class="hier-node t-divleader" data-node="divleader">divLeader</div>
+      </div>
+      <div class="hier-line"></div>
+      <div class="hier-row">
+        <div class="hier-node t-divmember" data-node="divmember">divMember</div>
+      </div>
+    </div>
+
+    <div class="section__cta">
+      <a class="btn btn--outline" href="/tentang/">Baca dokumen ATUR →</a>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function() {
+  const DATA = {
+    investor:  { label:"Eksternal",         title:"Investor",   color:"#4ade80", desc:"Pihak eksternal yang memberikan dukungan dana untuk project-project RKM yang dinilai layak dan berdampak.",                             duties:["Mendanai project komunitas yang lolos seleksi","Berhubungan langsung dengan Founder","Tidak ikut campur operasional komunitas"],                                                                              atur:"ATUR/INVEST/1.a"  },
+    founder:   { label:"Pengawas Tertinggi", title:"Founder",   color:"#e94560", desc:"Entitas pengawas independen dengan otoritas tertinggi. Representasi komunitas di hadapan investor. Maks. 5 orang.",                     duties:["Mengawasi & memberi masukan strategis","Konfirmasi semua keputusan penting komunitas","Berhadapan langsung dengan investor","Nominasi & persetujuan Founder baru"],                                          atur:"ATUR/FOUNDER/1.a" },
+    divlawyer: { label:"Divisi Independen",  title:"divLawyer", color:"#888",    desc:"Divisi hukum independen. Mengawasi kepatuhan seluruh kegiatan terhadap regulasi ATUR. Tidak berada di bawah gLeader.",                  duties:["Mengawasi kepatuhan regulasi ATUR","Meninjau draft regulasi sebelum disahkan","Menerima & menginvestigasi laporan pelanggaran","Mengeluarkan rekomendasi sanksi kepada Founder","Menyimpan arsip dokumen & kasus"], atur:"ATUR/LEGAL/1.a"   },
+    gleader:   { label:"Ketua Komunitas",    title:"gLeader",   color:"#4fc3f7", desc:"greatLeader — ketua komunitas penuh yang mengelola seluruh gMember dan mengarahkan eksekusi project komunitas.",                        duties:["Mengelola & mengevaluasi kinerja seluruh gMember","Menentukan project komunitas yang dieksekusi","Mendistribusikan SDM divisi sesuai kebutuhan","Melapor perkembangan komunitas ke Founder"],                   atur:"ATUR/LEADER/3.a"  },
+    gwatcher:  { label:"Lapisan gMember",    title:"gWatcher",  color:"#ffd166", desc:"Pengawas komunitas — memastikan semua divisi berjalan sesuai regulasi dan melaporkan temuan kepada gLeader.",                           duties:["Mengawasi jalannya seluruh divisi","Memastikan regulasi ATUR dijalankan","Melaporkan temuan kepada gLeader","Evaluasi kinerja divLeader"],                                                                 atur:"ATUR/LEADER/2.a"  },
+    gexecutor: { label:"Lapisan gMember",    title:"gExecutor", color:"#ffd166", desc:"Pelaksana project komunitas — mengeksekusi project-project arahan gLeader dengan memanfaatkan SDM divisi.",                             duties:["Mengeksekusi project arahan gLeader","Koordinasi lintas divisi dalam project","Memanfaatkan SDM divisi yang tersedia","Melaporkan progres project ke gLeader"],                                               atur:"ATUR/LEADER/2.a"  },
+    divleader: { label:"Ketua Divisi",       title:"divLeader", color:"#aaa",    desc:"Ketua divisi tertentu yang bertanggung jawab penuh atas operasional dan anggota divisinya.",                                            duties:["Memimpin operasional divisi","Menyelenggarakan oprec divMember baru","Evaluasi kinerja divMember","Melapor ke gLeader secara berkala"],                                                                      atur:"ATUR/LEADER/1.a"  },
+    divmember: { label:"Anggota Divisi",     title:"divMember", color:"#666",    desc:"Anggota awal di divisi tertentu. Masuk melalui Open Recruitment yang diselenggarakan masing-masing divisi.",                           duties:["Mengeksekusi project sesuai divisi","Menjalani masa percobaan 30 hari","Aktif berkontribusi min. 1 project per periode","Membangun cvDiri untuk naik jenjang"],                                               atur:"ATUR/OPREC/1.a"   }
+  };
+
+  const tooltip  = document.getElementById('hierTooltip');
+  const ttLabel  = document.getElementById('ttLabel');
+  const ttTitle  = document.getElementById('ttTitle');
+  const ttDesc   = document.getElementById('ttDesc');
+  const ttDuties = document.getElementById('ttDuties');
+  const ttAtur   = document.getElementById('ttAtur');
+  const TW = 240;
+  const OFFSET = 16;
+  let hideTimer = null;
+
+  function populate(key) {
+    const d = DATA[key];
+    if (!d) return false;
+    ttLabel.textContent = d.label;
+    ttLabel.style.color = d.color;
+    ttTitle.textContent = d.title;
+    ttTitle.style.color = d.color;
+    ttDesc.textContent  = d.desc;
+    ttAtur.textContent  = d.atur;
+    ttDuties.innerHTML  = d.duties.map(t =>
+      `<div class="tt-duty"><div class="tt-dot" style="background:${d.color}"></div><span>${t}</span></div>`
+    ).join('');
+    return true;
+  }
+
+  function place(cx, cy) {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    const th = tooltip.offsetHeight || 150;
+    const GAP = 5; // jarak tooltip dari cursor secara vertikal
+
+    let x = cx - TW - OFFSET;
+    if (x < 8) x = cx + OFFSET;
+    if (x + TW > vw - 8) x = 8;
+
+    // default: muncul di ATAS cursor
+    let y = cy - th - GAP;
+    // kalau atas tidak cukup, fallback ke bawah
+    if (y < 10) y = cy + GAP;
+    // kalau bawah juga tidak cukup, paksa fit di viewport
+    if (y + th > vh - 10) y = vh - th - 8;
+
+    tooltip.style.left = x + 'px';
+    tooltip.style.top  = y + 'px';
+  }
+
+  function show(key, cx, cy) {
+    clearTimeout(hideTimer);
+    if (!populate(key)) return;
+    tooltip.classList.add('show');
+    place(cx, cy);
+  }
+
+  function hide() {
+    hideTimer = setTimeout(() => tooltip.classList.remove('show'), 120);
+  }
+
+  document.querySelectorAll('.hier-node').forEach(node => {
+    const key = node.dataset.node;
+    if (!key) return;
+    node.addEventListener('mouseenter', e => show(key, e.clientX, e.clientY));
+    node.addEventListener('mousemove',  e => place(e.clientX, e.clientY));
+    node.addEventListener('mouseleave', hide);
+    node.addEventListener('touchstart', e => {
+      e.preventDefault();
+      const t = e.touches[0];
+      show(key, t.clientX, t.clientY);
+    }, { passive: false });
+    node.addEventListener('touchmove', e => {
+      const t = e.touches[0];
+      place(t.clientX, t.clientY);
+    }, { passive: true });
+  });
+
+  document.addEventListener('touchstart', e => {
+    if (!e.target.closest('.hier-node')) hide();
+  }, { passive: true });
+})();
+</script>

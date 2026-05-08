@@ -1,0 +1,22 @@
+baseURL = "https://rkm-nirmala.github.io/"
+languageCode = "id"
+title = "rkm.nirmala"
+
+[params]
+  tagline    = "Liar di ide, serius di eksekusi."
+  subtagline = "Kanvas orat-oret para mahasigma."
+  handle     = "@rkm.nirmala"
+  ipa        = "/ɛr.ka.ɛm/"
+  version    = "v1.0"
+  daop       = "nirmala"
+  instagram  = "https://instagram.com/rkm.nirmala"
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = true
+
+[taxonomies]
+  category = "categories"
+  tag      = "tags"
+  divisi   = "divisi"
